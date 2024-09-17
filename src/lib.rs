@@ -12,7 +12,7 @@ use thiserror::Error;
 /// ```
 /// use isa::*;
 ///
-/// //  bits:   543210
+/// //bits:   543210
 /// let v = 0b101000;
 /// assert_eq!(0b101, bits(v, 3..=5));
 /// ```
@@ -34,6 +34,18 @@ pub fn bits<R: std::ops::RangeBounds<usize>>(v: usize, r: R) -> usize {
     (ret >> start) & mask
 }
 
+/// Altera os bits presentes no valor `v` que estão no intervalo `r` pelos bits `b`.
+/// A contagem começa do *low bit* para o *high bit*.
+///
+/// ## Exemplo:
+///
+/// ```
+/// use isa::*;
+///
+/// //bits:   543210
+/// let v = 0b101000;
+/// assert_eq!(0b101110, set_bits(v, 0b11, 1..=2));
+/// ```
 pub fn set_bits<R: std::ops::RangeBounds<usize>>(v: usize, b: usize, r: R) -> usize {
     let start = match r.start_bound() {
         std::ops::Bound::Included(&n) => n,
